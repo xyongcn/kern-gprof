@@ -15,7 +15,7 @@
   <tr>
   
     <td>关于binutils-2.21.1</td>
-  <tr>
+  </tr>
       <td>
       最好使用ubuntu-12.04-i386.iso的版本<br/>
       确认安装了flex和bison软件包<br/>
