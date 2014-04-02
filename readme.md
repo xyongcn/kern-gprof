@@ -1,5 +1,5 @@
 ����gprof
-@������gmon�ļ��У�����start.py�ű�
+������gmon�ļ��У�����start.py�ű�
 2����������python start.py ��������ͼ
 3������python start.py func_name ���ɵ����������ص���ͼ
    ע���޸�����·����vmlinux��·����ȷ����������װ��graphviz
