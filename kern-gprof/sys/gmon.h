@@ -58,7 +58,7 @@ extern struct __bb *__bb_head;
 /*
  * histogram counters are unsigned shorts (according to the kernel).
  */
-#define	HISTCOUNTER	unsigned short
+#define	HISTCOUNTER	unsigned long long
 
 /*
  * fraction of text space to allocate for histogram counters here, 1/2
@@ -156,7 +156,7 @@ struct rawarc {
  */
 struct gmonparam {
 	long int	state;
-	u_short		*kcount;
+	unsigned long long 	        *kcount;
 	u_long		kcountsize;
 	ARCINDEX	*froms;
 	u_long		fromssize;

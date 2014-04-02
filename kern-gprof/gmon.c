@@ -48,36 +48,45 @@
 #endif
 
 #define attribute_hidden
-static int	s_scale;
-#define		SCALE_1_TO_1	0x10000L
+static unsigned long long 	s_scale;
+#define		SCALE_1_TO_1	0x10000L  //changge x16
 #define __snprintf snprintf
 #define __getpid getpid
 #define __strerror_r strerror_r
 #define __fxprintf(io,args...) fprintf(stderr,args)
 #define __set_errno(x)
 #define __setitimer setitimer
+#define	HISTCOUNTER	unsigned long long  //change
+
+
 
 #define write_not_cancel write
 #define open_not_cancel open
 #define close_not_cancel_no_status close
 #define writev_not_cancel_no_status writev
-
+#define u_long unsigned long   //change
+#define size_t unsigned int    //change
+#define u_int unsigned int     //change
 struct __bb *__bb_head attribute_hidden;
 struct gmonparam _gmonparam ;/*attribute_hidden = { GMON_PROF_OFF };*/
  int  m=0;
 /*
  * See profil(2) where this is described:
  */
-
+struct iove   //change
+{ 
+   void * iov_base;
+   unsigned long  iov_len;
+};
 
 #define ERR(s) write_not_cancel (STDERR_FILENO, s, sizeof (s) - 1)
 
 
-static u_short *samples;
-//static u_long *samples;
+//static u_short *samples;
+static  unsigned long long   *samples; //change
 static size_t nsamples;
 static size_t pc_offset;
-static u_int pc_scale;
+static  unsigned long long pc_scale;
 
 static void write_call_graph (int fd) ;
 
@@ -165,26 +174,40 @@ __monstartup (u_long  lowpc, u_long  highpc)
     {
 #ifndef hp300
       s_scale = ((float)p->kcountsize / o ) * SCALE_1_TO_1;
+      
 #else
       /* avoid floating point operations */
       int quot = o / p->kcountsize;
 
       if (quot >= 0x10000)
-	s_scale = 1;
+	{
+          s_scale = 1;
+          printf("aaaa");
+          }
+   
       else if (quot >= 0x100)
+      {
 	s_scale = 0x10000 / quot;
+        printf("bbbb");
+      }
       else if (o >= 0x800000)
-	s_scale = 0x1000000 / (o / (p->kcountsize >> 8));
+	{s_scale = 0x1000000 / (o / (p->kcountsize >> 8));
+         printf("cccc");
+        }
       else
-	s_scale = 0x1000000 / ((o << 8) / p->kcountsize);
+	{
+          s_scale = 0x1000000 / ((o << 8) / p->kcountsize);
+          printf("dddd");}
 #endif
     } else
-      s_scale = SCALE_1_TO_1;
+     {
+        s_scale = SCALE_1_TO_1;
+       printf("eeee");}
       __moncontrol(1);
   
 }
 int
-__profil (u_short *sample_buffer, size_t size, size_t offset, u_int scale)
+__profil ( unsigned long long  *sample_buffer, size_t size, size_t offset,  unsigned long long scale) //change u_long
 {
   samples = sample_buffer;
   nsamples = size / sizeof *samples;
@@ -195,25 +218,23 @@ __profil (u_short *sample_buffer, size_t size, size_t offset, u_int scale)
 
 }
 static void
-profil_count (void *pc,u_long time)
+profil_count (void *pc,unsigned long long  time)
 {
-  size_t i = (pc - pc_offset - (void *) 0) / 2;
-  //printf("%d\n",time);
+  size_t i = (pc - pc_offset - (void *) 0) / 8; //change
+ 
   if (sizeof (unsigned long long int) > sizeof (size_t))
-    i = (unsigned long long int) i * pc_scale / 65536;
+    i = (unsigned long long int) i * pc_scale / 65536; //change
   else
-    i = i / 65536 * pc_scale + i % 65536 * pc_scale / 65536;
+    i = i / 65536 * pc_scale + i % 65536* pc_scale / 65536; //change
  
   if (i < nsamples)
    {
    
-     //m++;
-     // if(samples[i]>65500)
-     if(pc==0xc105ad63)
-     printf("%ld,%x\n",samples[i],pc);
+    
+    
          
      samples[i]+=time;
-     
+    
    }
 }
 
@@ -223,10 +244,10 @@ write_hist (int fd)
 {
   u_char tag = GMON_TAG_TIME_HIST;
   struct gmon_hist_hdr thdr __attribute__ ((aligned (__alignof__ (char *))));
-
+ 
   if (_gmonparam.kcountsize > 0)
     {
-      struct iovec iov[3] =
+      struct iove iov[3] =
         {
 	  { &tag, sizeof (tag) },
 	  { &thdr, sizeof (struct gmon_hist_hdr) },
@@ -237,10 +258,10 @@ write_hist (int fd)
       *(char **) thdr.high_pc = (char *) _gmonparam.highpc;
       *(int32_t *) thdr.hist_size = (_gmonparam.kcountsize
 				     / sizeof (HISTCOUNTER));
-      *(int32_t *) thdr.prof_rate = 100;
+      *(int32_t *) thdr.prof_rate = 1;
       strncpy (thdr.dimen, "seconds", sizeof (thdr.dimen));
       thdr.dimen_abbrev = 's';
-
+      
       writev_not_cancel_no_status (fd, iov, 3);
     }
 }
@@ -255,7 +276,7 @@ write_call_graph (int fd)
   ARCINDEX from_index, to_index;
   u_long from_len;
   u_long frompc;
-  struct iovec iov[2 * NARCS_PER_WRITEV];
+  struct iove iov[2 * NARCS_PER_WRITEV];
   int nfilled;
 
   for (nfilled = 0; nfilled < NARCS_PER_WRITEV; ++nfilled)
@@ -363,7 +384,7 @@ write_gmon (void)
 #ifndef O_NOFOLLOW
 # define O_NOFOLLOW	0
 #endif
-
+   
     env = getenv ("GMON_OUT_PREFIX");
     if (env != NULL )
       {
@@ -372,7 +393,7 @@ write_gmon (void)
 	__snprintf (buf, sizeof (buf), "%s.%u", env, __getpid ());
 	fd = open_not_cancel (buf, O_CREAT|O_TRUNC|O_WRONLY|O_NOFOLLOW, 0666);
       }
-
+    
     if (fd == -1)
       {
 	fd = open_not_cancel ("gmon.out", O_CREAT|O_TRUNC|O_WRONLY|O_NOFOLLOW,
@@ -392,7 +413,7 @@ write_gmon (void)
     memcpy (&ghdr.cookie[0], GMON_MAGIC, sizeof (ghdr.cookie));
     *(int32_t *) ghdr.version = GMON_VERSION;
     write_not_cancel (fd, &ghdr, sizeof (struct gmon_hdr));
-
+   
     /* write PC histogram: */
     write_hist (fd);
 
@@ -426,68 +447,35 @@ __write_profiling (void)
 
 
 void
-main (void)
+main (int argc,char *argv[])
 {
  
-  char str1[30];
-  unsigned long l1=0,l2=0;
+  char str1[1000];
+  unsigned long l1=0,l2=0,max=0,min=0;
   unsigned long long l3=0;
- // __monstartup (0xc0103100, 0xc04f5e5f);
-   __monstartup (0xc1004100,0xc1644dff);
-  FILE *fp=fopen("addr_result-1.txt","r");
-  // FILE *fp=fopen("addr","r");
- 
-  //char delims[]=" ";
+   sscanf(argv[1],"%x",&max); 
+   sscanf(argv[2],"%x",&min);
+   __monstartup (min-0xa,max+0xa);
+  FILE *fp=fopen("addr_result-2.txt","r");
+  
   char *result=NULL,*result1=NULL;
-  char *p=NULL,*m=NULL;
-  char *num[3];
-  unsigned long n=1,i;
-  int mm=0;
+ 
+ 
 while(fgets(str1,sizeof(str1),fp)!=NULL)
   {
-   
-    i=0;
-    p=str1;
-    
-    while((num[i]=strtok(p,","))!=NULL)
-    {
-         
-          if(i==0)
-           {
-            
-             sscanf(num[i],"%x",&l1);
-            }
-          if(i==1)
-          {
-            sscanf(num[1],"%x",&l2);
-        }
-
-
-          i++;
-         
-          p=NULL;
-     }
   
    
-    
-   // sscanf(num[1],"%x",&l2);
-    //printf("%s",num[1]);
-    sscanf(num[2],"%ld",&l3);
-     mcount(l1,l2);
-    // mcount(0xc0619f68,0xc0128770);
-    // mcount(0xc012878e,0xc0619f6d);
-    // m++;
-     l3=l3/2674;
-   // l3=sqrt(l3);
+    sscanf(str1,"%x,%x,%lld",&l1,&l2,&l3);     
+    mcount(l1,l2);
+   
     profil_count (l2,l3);
-  // printf("%ld\n",l3);
+ 
      
   
   
 }
 
-   // printf("%d\n",m);
- 
+
  
   if (_gmonparam.state != GMON_PROF_ERROR)
     write_gmon ();

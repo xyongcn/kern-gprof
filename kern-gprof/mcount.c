@@ -41,6 +41,7 @@ static char sccsid[] = "@(#)mcount.c	8.1 (Berkeley) 6/4/93";
 
 //#include <atomic.h>
 #define atomic_compare_and_swap __sync_bool_compare_and_swap
+
 struct gmonparam _gmonparam ;
 /*
  * mcount is called on entry to each function compiled with the profiling
@@ -111,7 +112,6 @@ void mcount(u_long frompc, u_long selfpc)	/* _mcount; may be static, inline, etc
 		top->selfpc = selfpc;
 		top->count = 1;
 		top->link = 0;
-              
 		goto done;
 	}
 	top = &p->tos[toindex];
@@ -120,7 +120,6 @@ void mcount(u_long frompc, u_long selfpc)	/* _mcount; may be static, inline, etc
 		 * arc at front of chain; usual case.
 		 */
 		top->count++;
-          
 		goto done;
 	}
 	/*
@@ -146,7 +145,6 @@ void mcount(u_long frompc, u_long selfpc)	/* _mcount; may be static, inline, etc
 			top->count = 1;
 			top->link = *frompcindex;
 			*frompcindex = toindex;
-                     
 			goto done;
 		}
 		/*
@@ -165,17 +163,15 @@ void mcount(u_long frompc, u_long selfpc)	/* _mcount; may be static, inline, etc
 			prevtop->link = top->link;
 			top->link = *frompcindex;
 			*frompcindex = toindex;
-
 			goto done;
 		}
 
 	}
 done:
-	p->state = GMON_PROF_ON;        
+	p->state = GMON_PROF_ON;
 	return;
 overflow:
 	p->state = GMON_PROF_ERROR;
-        
 	return;
 }
 
