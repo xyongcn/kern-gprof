@@ -11,12 +11,20 @@
 4、测试数据addr_result-3.txt、vmlinux-32在dropbox/kernel/mtrace/data中<br/>
   </td>
   </tr>
-关于binutils-2.21.1
-最好使用ubuntu-12.04-i386.iso的版本
-确认安装了flex和bison软件包
-安装过程：
-1、mkdir binutils-build
-2、cd binutils-build
-3、../binutils-2.21.1/configure  --prefix=/tools --disable-nls
-4、make
-5、make install
+  </table>
+  <tr>
+  
+    <td>关于binutils-2.21.1</td>
+  <tr>
+      <td>
+      最好使用ubuntu-12.04-i386.iso的版本<br/>
+      确认安装了flex和bison软件包<br/>
+      安装过程：<br/>
+      1、mkdir binutils-build<br/>
+      2、cd binutils-build<br/>
+      3、../binutils-2.21.1/configure  --prefix=/tools --disable-nls<br/>
+      4、make<br/>
+      5、make install<br/>
+      </td>
+ </tr>
+ </table>
