@@ -12,6 +12,7 @@
   </td>
   </tr>
   </table>
+  <table>
   <tr>
   
     <td>关于binutils-2.21.1</td>
