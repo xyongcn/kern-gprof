@@ -1,16 +1,16 @@
-关于gprof
-1、进入gmon文件夹，运行start.py脚本
-2、单独运行python start.py 生成整张图
-3、运行python start.py func_name 生成单个函数相关调用图
-   注：修改数据路径和vmlinux的路径、确认虚拟机安装了graphviz
-4、测试数据addr_result-3.txt、vmlinux-32在dropbox/kernel/mtrace/data中
+锟斤拷锟斤拷gprof
+@锟斤拷锟斤拷锟斤拷gmon锟侥硷拷锟叫ｏ拷锟斤拷锟斤拷start.py锟脚憋拷
+2锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷python start.py 锟斤拷锟斤拷锟斤拷锟斤拷图
+3锟斤拷锟斤拷锟斤拷python start.py func_name 锟斤拷锟缴碉拷锟斤拷锟斤拷锟斤拷锟斤拷锟截碉拷锟斤拷图
+   注锟斤拷锟睫革拷锟斤拷锟斤拷路锟斤拷锟斤拷vmlinux锟斤拷路锟斤拷锟斤拷确锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷装锟斤拷graphviz
+4锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷addr_result-3.txt锟斤拷vmlinux-32锟斤拷dropbox/kernel/mtrace/data锟斤拷
 
-关于binutils-2.21.1
-最好使用ubuntu-12.04-i386.iso的版本
-确认安装了flex和bison软件包
-安装过程：
-1、mkdir binutils-build
-2、cd binutils-build
-3、../binutils-2.21.1/configure  --prefix=/tools --disable-nls
-4、make
-5、make install
+锟斤拷锟斤拷binutils-2.21.1
+锟斤拷锟斤拷使锟斤拷ubuntu-12.04-i386.iso锟侥版本
+确锟较帮拷装锟斤拷flex锟斤拷bison锟斤拷锟斤拷锟斤拷
+锟斤拷装锟斤拷锟教ｏ拷
+1锟斤拷mkdir binutils-build
+2锟斤拷cd binutils-build
+3锟斤拷../binutils-2.21.1/configure  --prefix=/tools --disable-nls
+4锟斤拷make
+5锟斤拷make install
