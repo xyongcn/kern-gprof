@@ -18,7 +18,7 @@
   </tr>
   <tr>
       <td>
-      最好使用ubuntu-12.04-i386.iso的版本<br/>
+      最好使用ubuntu-12.04-i386.iso的32位版本<br/>
       确认安装了flex和bison软件包<br/>
       安装过程：<br/>
       1、mkdir binutils-build<br/>
@@ -26,6 +26,9 @@
       3、../binutils-2.21.1/configure  --prefix=/tools --disable-nls<br/>
       4、make<br/>
       5、make install<br/>
+      6、cd /usr/bin<br/>
+      7、rm gprof<br/>
+      8、ln -s /tools/bin/gprof gprof <br/>
       </td>
  </tr>
 </table>
