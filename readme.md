@@ -19,6 +19,10 @@
   <tr>
       <td>
       最好使用ubuntu-12.04-i386.iso的32位版本<br/>
+      如果使用ubuntu-12.04-amd64.iso的64位版本修改如下:<br/>
+            makefile文件中的cc 编译添加-m32选项<br/>
+            sudo apt-get install libc6:i386<br/>
+            sudo apt-get install ia32-libs<br/>
       确认安装了flex和bison软件包<br/>
       安装过程：<br/>
       1、mkdir binutils-build<br/>
