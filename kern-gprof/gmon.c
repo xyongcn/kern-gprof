@@ -230,9 +230,6 @@ profil_count (void *pc,unsigned long long  time)
   if (i < nsamples)
    {
    
-    
-    
-         
      samples[i]+=time;
     
    }
