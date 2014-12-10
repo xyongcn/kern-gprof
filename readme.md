@@ -24,7 +24,12 @@
             a.makefile文件中的cc 编译添加-m32选项<br/>
             b.sudo apt-get install libc6:i386<br/>
             c.sudo apt-get install ia32-libs<br/>
-            
+           </td>
+ </tr>
+</table>  
+<table>
+  <tr>
+    <td>
       确认安装了flex和bison软件包<br/>
       安装过程：<br/>
       1、mkdir binutils-build<br/>
