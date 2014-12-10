@@ -3,7 +3,7 @@ import os
 import sys
 #name="/home/tanh/md5-busybox-data-thui.txt"
 #name1="/home/tanh/data/result-1.txt"
-name2=os.getcwd()+"/addr_result-2.txt"
+name2=os.getcwd()+"/addr_result-3.txt"
 l=[]
 def  addr(fp):
      fp1=open(name2,"w")
